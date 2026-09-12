@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4d244e">
+  <title>古典必携 第8章 和歌｜期末テスト対策</title>
+  <style>
+    :root{
+      --ink:#332431; --sub:#6f5d69; --paper:#fffdf7; --paper2:#f8f0e4;
+      --plum:#672b59; --plum2:#92507f; --gold:#c69b45; --green:#4b735e;
+      --red:#b6424d; --blue:#315f86; --line:#d8c9b3; --ok:#e7f4e9; --ng:#fff0ef;
+      --shadow:0 16px 45px rgba(49,29,38,.13);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;color:var(--ink);font-family:"Hiragino Mincho ProN","Yu Mincho",YuMincho,serif;background:
+      radial-gradient(circle at 15% 10%,rgba(198,155,69,.12),transparent 24%),
+      linear-gradient(135deg,#f4eadc,#fbf8ef 48%,#eee0d6);min-height:100vh}
+    button,input,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{max-width:1180px;margin:auto;padding:18px}
+    .topbar{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-bottom:14px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .crest{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:white;background:var(--plum);border:3px double #e8c77c;font-size:24px;box-shadow:0 5px 16px #5c345044}
+    .brand h1{font-size:clamp(19px,3vw,30px);margin:0;letter-spacing:.06em}
+    .brand small{display:block;color:var(--sub);font-family:system-ui,sans-serif;font-weight:600;margin-top:3px}
+    .pill{border:1px solid var(--line);border-radius:999px;background:#fffaf1;padding:9px 14px;color:var(--plum);font-weight:700}
+    .hero{background:rgba(255,253,247,.94);border:1px solid #e7d9c3;border-radius:24px;padding:clamp(22px,5vw,48px);box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .hero:before{content:"和";position:absolute;right:3%;top:-38px;font-size:190px;color:rgba(103,43,89,.045);font-weight:900}
+    .hero h2{font-size:clamp(28px,5vw,52px);margin:0 0 12px;color:var(--plum);letter-spacing:.12em}
+    .hero p{max-width:760px;line-height:1.9;margin:7px 0;color:#554550}
+    .route{margin-top:18px;padding:14px 16px;border-left:5px solid var(--gold);background:#fbf4df;border-radius:4px 14px 14px 4px;line-height:1.7}
+    .name-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:22px 0 10px;font-family:system-ui,sans-serif}
+    .name-row input{min-width:230px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:white;font-size:16px}
+    .section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:14px;margin-top:18px}
+    .section-card{border:1px solid #dfd0ba;background:linear-gradient(155deg,#fffef9,#f7eee2);border-radius:18px;padding:18px;text-align:left;color:var(--ink);min-height:174px;transition:.18s;box-shadow:0 6px 16px #3d26300e;position:relative;overflow:hidden}
+    .section-card:hover,.section-card:focus-visible{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 11px 24px #3d26301d;outline:none}
+    .section-card.done{border-color:#7da889;background:linear-gradient(155deg,#f9fff9,#edf6ec)}
+    .section-card .num{font-family:system-ui,sans-serif;font-size:12px;color:white;background:var(--plum);display:inline-block;border-radius:999px;padding:4px 9px;margin-bottom:10px}
+    .section-card h3{margin:0 0 8px;font-size:21px;color:var(--plum)}
+    .section-card p{font-family:system-ui,sans-serif;font-size:13px;line-height:1.55;color:var(--sub);margin:0 0 22px}
+    .section-card .foot{position:absolute;bottom:14px;left:18px;right:18px;display:flex;justify-content:space-between;font:700 12px system-ui,sans-serif;color:#73576a}
+    .toolbar{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+    .primary,.secondary,.ghost,.choice{border:0;border-radius:12px;padding:12px 17px;font-weight:700}
+    .primary{background:var(--plum);color:white;box-shadow:0 6px 16px #672b5933}
+    .secondary{background:var(--gold);color:#2e2130}
+    .ghost{background:#fff;border:1px solid var(--line);color:var(--plum)}
+    .note{font:13px/1.7 system-ui,sans-serif;color:var(--sub)}
+    .screen{display:none}
+    .screen.active{display:block}
+    .study-shell{background:rgba(255,253,247,.96);border:1px solid #e2d4bf;border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+    .study-head{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:15px 18px;background:#f5eadc;border-bottom:1px solid var(--line)}
+    .study-head h2{margin:0;font-size:clamp(19px,3vw,28px);color:var(--plum)}
+    .progress-wrap{display:flex;align-items:center;gap:8px;min-width:min(45%,320px);font:700 13px system-ui,sans-serif}
+    .progress-track{height:10px;flex:1;background:#dfd5c9;border-radius:99px;overflow:hidden}
+    .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--green),#87a76d);transition:.3s}
+    .study-body{padding:clamp(18px,4vw,36px)}
+    .guide{display:grid;grid-template-columns:minmax(250px,.8fr) minmax(300px,1.2fr);gap:22px}
+    .guide-title{background:linear-gradient(180deg,#6f315f,#4e244a);color:white;border-radius:18px;min-height:360px;padding:25px;display:flex;align-items:center;justify-content:center}
+    .vertical-title{writing-mode:vertical-rl;text-orientation:upright;letter-spacing:.18em;font-size:clamp(27px,4vw,43px);line-height:1.6}
+    .guide-notes{font-family:system-ui,sans-serif;line-height:1.8}
+    .guide-notes h3{font-family:"Yu Mincho",serif;color:var(--plum);font-size:23px;margin:2px 0 8px}
+    .guide-notes .point{padding:13px 15px;background:#fff8e7;border:1px solid #ead5a5;border-radius:12px;margin:9px 0}
+    .compare{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+    .compare th,.compare td{border:1px solid var(--line);padding:10px;vertical-align:top}
+    .compare th{background:#f2e3d2;color:var(--plum)}
+    .mini-waka{writing-mode:vertical-rl;text-orientation:upright;height:235px;max-width:100%;padding:15px;margin:10px 0;background:#fff;border:1px solid var(--line);border-radius:12px;line-height:2.05;letter-spacing:.08em;overflow-x:auto;font-size:18px}
+    .question-area{min-height:530px}
+    .question-layout{display:grid;grid-template-columns:minmax(260px,.95fr) minmax(300px,1.05fr);gap:22px;align-items:stretch}
+    .vertical-panel{writing-mode:vertical-rl;text-orientation:upright;min-height:470px;max-height:610px;overflow:auto;border:1px solid var(--line);background:linear-gradient(#fffefb,#faf2e6);border-radius:18px;padding:22px;line-height:2.05;letter-spacing:.06em;font-size:clamp(17px,2.1vw,22px)}
+    .vertical-panel .q-label{color:var(--red);font-size:14px;font-weight:800}
+    .vertical-panel .poem{font-size:clamp(20px,2.5vw,28px);font-weight:700;color:#392334;margin-left:20px}
+    .reading{color:var(--blue);font-size:14px;font-family:"Yu Gothic",sans-serif;margin-left:14px}
+    .answer-side{border-radius:18px;background:#f7eee3;padding:18px;display:flex;flex-direction:column;gap:12px;min-height:470px}
+    .choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .choice{min-height:105px;background:white;border:2px solid #ded0c0;color:var(--ink);font-size:17px;writing-mode:vertical-rl;text-orientation:upright;justify-self:stretch;display:flex;align-items:center;justify-content:center;line-height:1.7}
+    .choice:hover{border-color:var(--gold)}
+    .choice.selected{border-color:var(--plum);background:#f2e4ef;color:var(--plum)}
+    .vertical-input{writing-mode:vertical-rl;text-orientation:upright;resize:none;height:270px;width:88px;align-self:center;border:2px solid #cdbda9;background:#fff;padding:13px;border-radius:12px;font-size:20px;line-height:1.8;letter-spacing:.08em}
+    .vertical-input:focus{outline:3px solid #c69b4544;border-color:var(--gold)}
+    .hint{font:14px/1.65 system-ui,sans-serif;background:#fff9e8;border-left:4px solid var(--gold);padding:10px 12px;border-radius:5px}
+    .feedback{display:none;font:15px/1.8 system-ui,sans-serif;border-radius:14px;padding:14px;max-height:260px;overflow:auto}
+    .feedback.show{display:block}
+    .feedback.ok{background:var(--ok);border:1px solid #a7c9ad}
+    .feedback.ng{background:var(--ng);border:1px solid #e3aaa8}
+    .feedback strong{color:var(--plum)}
+    .feedback-waka{writing-mode:vertical-rl;text-orientation:upright;height:190px;width:100%;overflow-x:auto;background:#fffdf8;border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:17px;line-height:1.8;letter-spacing:.05em}
+    .feedback-waka .feedback-reading{color:var(--blue);font-family:"Yu Gothic",sans-serif;font-size:12px;margin-left:12px}
+    .answer-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+    .answer-actions button{flex:1;min-width:130px}
+    .status-line{font:13px/1.6 system-ui,sans-serif;color:var(--sub);display:flex;justify-content:space-between;gap:10px}
+    .encyclopedia-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px}
+    .poem-card{background:#fffdf8;border:1px solid var(--line);border-radius:16px;padding:14px}
+    .poem-card .v{writing-mode:vertical-rl;text-orientation:upright;height:235px;width:100%;overflow:auto;font-size:17px;line-height:1.85;border-bottom:1px dashed var(--line);padding-bottom:10px}
+    .poem-card details{font:13px/1.7 system-ui,sans-serif;margin-top:10px}
+    .poem-card summary{cursor:pointer;color:var(--plum);font-weight:800}
+    .tag{display:inline-block;font:700 11px system-ui,sans-serif;border-radius:99px;background:#eee0d0;color:#60485a;padding:4px 8px;margin:4px 4px 0 0}
+    .modal{position:fixed;inset:0;background:#271725dd;z-index:20;display:none;place-items:center;padding:18px;overflow:auto}
+    .modal.show{display:grid}
+    .reward-card{width:min(700px,96vw);background:linear-gradient(#fffef8,#f7e7d5);border:5px double #d3a957;border-radius:28px;padding:24px;text-align:center;position:relative;overflow:hidden;box-shadow:0 30px 80px #0006}
+    .reward-card h2{font-size:clamp(28px,6vw,48px);color:var(--plum);margin:8px}
+    .reward-card p{font:17px/1.8 system-ui,sans-serif}
+    .noble-wrap{height:230px;display:grid;place-items:center;position:relative}
+    .noble{width:175px;animation:bow 1.8s ease-in-out infinite;transform-origin:50% 90%}
+    @keyframes bow{0%,55%,100%{transform:rotate(0)}70%{transform:rotate(8deg)}}
+    .flower-gift{font-size:60px;animation:float 2s ease-in-out infinite}
+    @keyframes float{50%{transform:translateY(-9px) rotate(4deg)}}
+    .petal{position:absolute;top:-25px;font-size:24px;animation:fall linear forwards;pointer-events:none}
+    @keyframes fall{to{transform:translateY(720px) rotate(480deg);opacity:.15}}
+    .collection{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;font:14px system-ui,sans-serif}
+    .flower-chip{background:white;border:1px solid var(--line);border-radius:99px;padding:7px 10px}
+    .report-box{margin-top:24px;border:1px solid var(--line);border-radius:16px;background:#fffaf1;padding:17px}
+    .report-box h3{margin:0 0 8px;color:var(--plum)}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,25px);background:#2f2530;color:white;border-radius:99px;padding:11px 17px;font:14px system-ui,sans-serif;opacity:0;pointer-events:none;transition:.25s;z-index:30}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:760px){
+      .app{padding:10px}.topbar{align-items:flex-start}.pill{display:none}.hero{border-radius:18px}
+      .guide,.question-layout{grid-template-columns:1fr}.guide-title{min-height:235px}
+      .vertical-panel{min-height:360px;max-height:480px}.answer-side{min-height:390px}
+      .choice{min-height:90px}.study-head{align-items:flex-start}.progress-wrap{min-width:45%;flex-direction:column;align-items:stretch}
+    }
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+    @media print{body{background:white}.topbar,.toolbar,.answer-actions,.report-box{display:none!important}.hero,.study-shell{box-shadow:none;border:0}.screen{display:block!important}.section-card{break-inside:avoid}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand"><div class="crest">歌</div><div><h1>古典必携「第8章」和歌</h1><small>期末テスト対策・一からわかる学習ゲーム</small></div></div>
+    <button class="pill" id="homeTop">学習目次へ</button>
+  </header>
+
+  <section id="home" class="screen active">
+    <div class="hero">
+      <h2>和歌を、読めるように。</h2>
+      <p>古文が苦手でも大丈夫です。まず「何を見つければよいか」を知り、現代語訳で情景をつかみ、それから問題を解きます。間違えた問題は、正解できるまで最後にもう一度出てきます。</p>
+      <div class="route"><b>おすすめ順：</b> ①和歌の基本 → ②枕詞 → ③序詞 → ④掛詞 → ⑤縁語 → ⑥現代語訳 → ⑦プリント実戦 → ⑧期末模試</div>
+      <div class="name-row"><label for="studentName"><b>学習する人：</b></label><input id="studentName" placeholder="例：Malei" autocomplete="name"><span class="note">進み具合はこの端末に保存されます。</span></div>
+      <div id="sectionGrid" class="section-grid"></div>
+      <div class="toolbar">
+        <button class="ghost" id="openEncyclopedia">和歌・現代語訳一覧</button>
+        <button class="ghost" id="resetProgress">学習記録をリセット</button>
+      </div>
+      <div class="collection" id="collection"></div>
+      <div class="report-box">
+        <h3>先生へ学習結果を報告</h3>
+        <p class="note">完了セクション、取り組み回数、間違えた分野をメール本文にまとめます。ボタンを押すとメールアプリが開きます。</p>
+        <div class="toolbar"><button class="primary" id="mailReport">1216ssence@gmail.com に報告</button><button class="ghost" id="copyReport">結果をコピー</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="study" class="screen">
+    <div class="study-shell">
+      <div class="study-head"><button class="ghost" id="backHome">← 目次</button><h2 id="studyTitle"></h2><div class="progress-wrap"><span id="progressText">0 / 0</span><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div></div></div>
+      <div class="study-body">
+        <div id="guideView"></div>
+        <div id="questionView" class="question-area" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="encyclopedia" class="screen">
+    <div class="study-shell">
+      <div class="study-head"><button class="ghost" id="backFromEncyclopedia">← 目次</button><h2>和歌・現代語訳一覧</h2><span class="note">読解の土台</span></div>
+      <div class="study-body"><p class="note">「読み・現代語訳・技法」を一首ずつ確認できます。🔊で音読もできます。</p><div id="poemGrid" class="encyclopedia-grid"></div></div>
+    </div>
+  </section>
+</main>
+
+<div id="rewardModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
+  <div class="reward-card" id="rewardCard">
+    <div class="noble-wrap">
+      <svg class="noble" viewBox="0 0 180 230" aria-label="平安時代の貴族">
+        <defs><linearGradient id="robe" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7a315f"/><stop offset="1" stop-color="#432546"/></linearGradient></defs>
+        <path d="M75 48 L83 8 L100 8 L108 49" fill="#242026"/><path d="M87 8 Q92 -2 98 8" fill="none" stroke="#c69b45" stroke-width="3"/>
+        <ellipse cx="92" cy="67" rx="34" ry="31" fill="#f6d9bd"/><path d="M71 64q20 14 42 0" fill="none" stroke="#5e4143" stroke-width="2"/><circle cx="80" cy="59" r="2.5"/><circle cx="104" cy="59" r="2.5"/>
+        <path d="M48 113 Q92 83 136 113 L157 220 H27Z" fill="url(#robe)" stroke="#d5ac5e" stroke-width="3"/>
+        <path d="M92 95v122M57 120q35 20 70 0" fill="none" stroke="#d5ac5e" stroke-width="3"/>
+        <path d="M49 132q-28 28-31 70M135 132q28 28 28 70" fill="none" stroke="#5a2c50" stroke-width="22" stroke-linecap="round"/>
+        <path d="M42 202q50-16 100 0" fill="none" stroke="#f2dbb0" stroke-width="8"/>
+      </svg>
+      <div class="flower-gift" id="flowerGift">🌸</div>
+    </div>
+    <h2 id="rewardTitle">ようやった！</h2><p id="rewardMessage"></p><button class="primary" id="closeReward">花を受け取って目次へ</button>
+  </div>
+</div>
+<div class="toast" id="toast" aria-live="polite"></div>
+
+<script>
+"use strict";
+const REPORT_EMAIL = "1216ssence@gmail.com";
+const STORAGE_KEY = "koten_hikkei_ch8_waka_v1";
+
+const poems = {
+  aoni:{text:"あをによし｜奈良の都は｜咲く花の｜にほふがごとく｜今盛りなり",reading:"あをによし｜ならのみやこは｜さくはなの｜におうがごとく｜いまさかりなり",translation:"奈良の都は、咲く花が美しく照り映えるように、今まさに繁栄の盛りである。",tech:"枕詞「あをによし」→奈良"},
+  emptyhouse:{text:"人もなき｜むなしき家は｜草枕｜旅にまさりて｜苦しかりけり",reading:"ひともなき｜むなしきいえは｜くさまくら｜たびにまさりて｜くるしかりけり",translation:"愛しい妻のいない空しい家は、旅にもましてつらいことだなあ。",tech:"枕詞「草枕」→旅"},
+  minume:{text:"玉藻かる｜敏馬を過ぎて｜夏草の｜野島が崎に｜舟近づきぬ",reading:"たまもかる｜みぬめをすぎて｜なつくさの｜のじまがさきに｜ふねちかづきぬ",translation:"敏馬を離れて、夏草の茂る野島の崎に舟は近づいた。",tech:"枕詞「玉藻かる」→敏馬／「夏草の」→野島"},
+  azusayear:{text:"あづさ弓｜春立ちしより｜年月の｜射るがごとくに｜思ほゆるかな",reading:"あづさゆみ｜はるたちしより｜としつきの｜いるがごとくに｜おもおゆるかな",translation:"春になったと思うやいなや、それからの年月が矢を射るように速く過ぎていくと思われることよ。",tech:"掛詞「張る／春」・縁語「あづさ弓―張る―射る」"},
+  suminoe:{text:"すみの江の｜岸による波｜よるさへや｜夢のかよひ路｜人目よくらむ",reading:"すみのえの｜きしによるなみ｜よるさえや｜ゆめのかよいじ｜ひとめよくらん",translation:"昼は人目を避けるとしても、夜までも、夢の中で私のもとに通う道でさえ、どうしてあなたは人目を避けているのだろう。",tech:"序詞「すみの江の岸による波」→よる"},
+  ayame:{text:"ほととぎす｜鳴くや五月の｜あやめ草｜あやめも知らぬ｜恋もするかな",reading:"ほととぎす｜なくやさつきの｜あやめぐさ｜あやめもしらぬ｜こいもするかな",translation:"ほととぎすが鳴く五月のあやめ草。その「あやめ」ではないが、物事の筋道も分からなくなるほど夢中の恋をすることだ。",tech:"序詞「ほととぎす鳴くや五月のあやめ草」→あやめ"},
+  utsu:{text:"駿河なる｜宇津の山辺の｜うつつにも｜夢にも人に｜逢はぬなりけり",reading:"するがなる｜うつのやまべの｜うつつにも｜ゆめにもひとに｜あわぬなりけり",translation:"駿河にある宇津の山辺に来ているが、その「うつ」という名ではないが、現実でも夢でもあなたに逢わないことだ。",tech:"序詞「駿河なる宇津の山辺の」→うつつ"},
+  shinobu:{text:"浅茅生の｜小野の篠原｜しのぶれど｜あまりてなどか｜人の恋しき",reading:"あさじうの｜おののしのはら｜しのぶれど｜あまりてなどか｜ひとのこいしき",translation:"浅茅の生えた野の篠原。その「しの」ではないが、恋心を忍んできたのに、抑えきれずどうしてこんなにもあの人が恋しいのだろう。",tech:"序詞「浅茅生の小野の篠原」→しのぶ"},
+  koromo:{text:"わがせこが｜衣はるさめ｜降るごとに｜野辺のみどりぞ｜色まさりける",reading:"わがせこが｜ころもはるさめ｜ふるごとに｜のべのみどりぞ｜いろまさりける",translation:"あの人の衣を張る、その「はる」ではないが、春雨が降るたびに野辺の緑の色が濃くなっていくことよ。",tech:"序詞「わがせこが衣」→はる（張る／春）"},
+  tatsuta:{text:"風吹けば｜沖つ白波｜たつた山｜夜半にや君が｜ひとり越ゆらむ",reading:"かぜふけば｜おきつしらなみ｜たつたやま｜よわにやきみが｜ひとりこゆらん",translation:"風が吹くと沖の白波が立つ。その「たつ」ではないが、夜中にあなたが一人で竜田山を越えているのだろうか。",tech:"序詞「風吹けば沖つ白波」→たつ／掛詞「立つ・竜田山」"},
+  yamadori:{text:"あしびきの｜山鳥の尾の｜しだり尾の｜ながながし夜を｜ひとりかも寝む",reading:"あしびきの｜やまどりのおの｜しだりおの｜ながながしよを｜ひとりかもねん",translation:"山鳥の長く垂れた尾のように長い夜を、私はたった一人で寝るのだろうか。",tech:"枕詞「あしびきの」→山／序詞（上三句）→ながながし"},
+  yura:{text:"由良の門を｜渡る舟人｜かぢを絶え｜ゆくへも知らぬ｜恋の道かな",reading:"ゆらのとを｜わたるふなびと｜かじをたえ｜ゆくえもしらぬ｜こいのみちかな",translation:"由良の瀬戸を渡る船頭が櫂を失い行方も分からず漂うように、これからどうなるのか分からない私の恋の道だ。",tech:"序詞「由良の門を渡る舟人かぢを絶え」→ゆくへも知らぬ"},
+  matsumushi:{text:"もみぢ葉の｜散りてつもれる｜わが宿に｜誰をまつ虫｜ここら鳴くらむ",reading:"もみじばの｜ちりてつもれる｜わがやどに｜たれをまつむし｜ここらなくらん",translation:"紅葉が散り積もった私の家で、誰を待つつもりで松虫はこんなにしきりに鳴いているのだろう。",tech:"掛詞「待つ／松虫」"},
+  yobukodori:{text:"をちこちの｜たづきも知らぬ｜山中に｜おぼつかなくも｜よぶこ鳥かな",reading:"おちこちの｜たずきもしらぬ｜やまなかに｜おぼつかなくも｜よぶこどりかな",translation:"あちらもこちらも見当のつかない山中で、頼りなさそうに呼ぶような声で呼子鳥が鳴いていることよ。",tech:"掛詞「呼ぶ／呼子鳥」"},
+  fuyukusa:{text:"わが待たぬ｜年は来ぬれど｜冬草の｜かれにし人は｜おとづれもせず",reading:"わがまたぬ｜としはきぬれど｜ふゆくさの｜かれにしひとは｜おとずれもせず",translation:"私が待っていない新年は来たのに、私から離れてしまったあの人は便りさえくれない。",tech:"枕詞「冬草の」→かれ／掛詞「枯れ・離れ」"},
+  azusawaka:{text:"あづさ弓｜おして春雨｜今日降りぬ｜明日さへ降らば｜若菜摘みてむ",reading:"あづさゆみ｜おしてはるさめ｜きょうふりぬ｜あすさえふらば｜わかなつみてん",translation:"梓弓を押して張る、その「はる」ではないが、春雨が今日降った。明日も降るなら若菜を摘もう。",tech:"序詞「あづさ弓おして」→はる／掛詞「張る・春」／三句切れ"},
+  kiku:{text:"音にのみ｜きくの白露｜夜はおきて｜昼は思ひに｜あへず消ぬべし",reading:"おとにのみ｜きくのしらつゆ｜よるはおきて｜ひるはおもいに｜あえずけぬべし",translation:"噂にだけ聞くあの人を思う私は、菊の白露が夜に置き昼に消えるように、夜は眠らず起き、昼は恋心に耐えきれず死んでしまいそうだ。",tech:"掛詞「聞く・菊」「起き・置き」「思ひ・日」／縁語「白露―置く―日―消ゆ」"},
+  matsuho:{text:"来ぬ人を｜松帆の浦の｜夕なぎに｜焼くや藻塩の｜身もこがれつつ",reading:"こぬひとを｜まつほのうらの｜ゆうなぎに｜やくやもしおの｜みもこがれつつ",translation:"待っても来ない恋人を待ち続け、松帆の浦の夕なぎに焼く藻塩のように、私の身も恋しさに焦がれ続けている。",tech:"掛詞「待つ・松」「焦がれ・焦げ」／縁語「浦―焼く―藻塩―焦がる」"},
+  mika:{text:"みかの原｜わきて流るる｜いづみ川｜いつ見きとてか｜恋しかるらむ",reading:"みかのはら｜わきてながるる｜いずみがわ｜いつみきとてか｜こいしかるらん",translation:"みかの原から湧き、その原を分けて流れる泉川。その「いつみ」という名ではないが、いつ見たというのでこんなに恋しいのだろう。まだ会ってもいないのに。",tech:"序詞（上三句）→いつ見／掛詞「泉・いつ見」"},
+  yamazato:{text:"山里は｜冬ぞさびしさ｜まさりける｜人目も草も｜かれぬと思へば",reading:"やまざとは｜ふゆぞさびしさ｜まさりける｜ひとめもくさも｜かれぬとおもえば",translation:"山里は冬になると特に寂しさが増すことだ。人も離れ、草も枯れてしまうと思うと。",tech:"掛詞「離れ・枯れ」／縁語「草―枯れ」"},
+  kasuga:{text:"春日野の｜雪間をわけて｜生ひ出でくる｜草のはつかに｜見えし君はも",reading:"かすがのの｜ゆきまをわけて｜おいいでくる｜くさのはつかに｜みえしきみはも",translation:"春日野の雪の間から生え出る草がわずかに見えるように、ほんのわずかに姿が見えたあなたよ。",tech:"比喩の序詞「春日野の…草の」→はつかに"},
+  kaeru:{text:"わたつ海の｜おきにこがるる｜物見れば｜あまの釣りして｜かへるなりけり",reading:"わたつうみの｜おきにこがるる｜ものみれば｜あまのつりして｜かえるなりけり",translation:"表の意味は『海の沖で舟に漕がれている物を見ると、海人が釣りをして帰るところだった』。実際は『火鉢の熾き火に焦げていた物は、蛙だった』という機転の利いた報告。",tech:"掛詞「沖・熾き」「漕がるる・焦がるる」「帰る・蛙」"}
+};
+
+const V = key => poems[key].text;
+const qChoice = (id,prompt,choices,answer,explain,poem=null) => ({id,type:"choice",prompt,choices,answer,explain,poem});
+const qText = (id,prompt,answers,model,explain,poem=null,required=null,hint="ひらがな・漢字のどちらでもかまいません。") => ({id,type:"text",prompt,answers,model,explain,poem,required,hint});
+
+const basics = [
+ qChoice("b1","短歌の基本の音数はどれ？",["五・七・五・七・七","五・七・五","七・七・五・七・五","五・五・七・七・七"],0,"短歌は五・七・五・七・七の五句、合計三十一音が基本です。"),
+ qText("b2","短歌は全部で何音？",["31","三十一","三十一音","31音"],"三十一音","五・七・五・七・七を足すと三十一音です。"),
+ qChoice("b3","和歌の途中で意味が大きく切れる所を何という？",["句切れ","縁語","係り結び","体言止め"],0,"文として「。」が打てる所が句切れです。"),
+ qChoice("b4","句切れを探す時の手がかりになりにくいものは？",["終止形","命令形","終助詞","枕詞の音数"],3,"終止形・命令形・係り結び・終助詞などが句切れの手がかりです。枕詞の音数は直接の目印ではありません。"),
+ qChoice("b5","三句目の後で意味が切れる歌は？",["三句切れ","初句切れ","二句切れ","句切れなし"],0,"第3句の後に「。」が置ければ三句切れです。"),
+ qChoice("b6","「ぞ・なむ・や・か・こそ」を見つけた時、まず何を疑う？",["係り結び","掛詞","枕詞","体言止め"],0,"係助詞と文末の活用（係り結び）を確認すると、句切れも見つけやすくなります。"),
+ qChoice("b7","和歌を読む最初の順番として最もよいものは？",["五句に分け、句切れを探す","作者名だけ暗記する","全て現代語に置換する","季節だけで決める"],0,"まず五・七・五・七・七に分け、文の切れ目を探すと骨組みが見えます。"),
+ qChoice("b8","「かな」が歌末にある時、働きとして多いものは？",["詠嘆","打消","受身","過去"],0,"終助詞「かな」は「〜だなあ」という詠嘆を表し、句切れの手がかりにもなります。"),
+ qChoice("b9","「〜けり」で言い切られている所は、何の手がかり？",["句切れ","枕詞","縁語","地名"],0,"助動詞「けり」の終止形で文が終われば、そこに句切れがある可能性が高いです。"),
+ qText("b10","和歌を読む四つの順番。五句→句切れ→修辞→最後は何？",["現代語訳","現代訳","訳","意味"],"現代語訳","技法名だけで終わらず、最後に歌全体が表す情景・心情を現代語でつかみます。")
+];
+
+const makura = [
+ qChoice("m1","枕詞の基本的な長さは？",["五音","七音","一音","長さは必ず十音"],0,"枕詞は多くが五音で、特定の語を導きます。"),
+ qChoice("m2","枕詞について正しい説明は？",["かかる語がほぼ決まっている","必ず現代語訳する","一語で二つの意味を表す","長い句全体でたとえる"],0,"枕詞は特定の語に固定的にかかり、原則として訳さなくてよい言葉です。"),
+ qChoice("m3","「あをによし」がかかる語は？",["奈良","山","旅","母"],0,"「あをによし奈良」と覚えます。", "aoni"),
+ qChoice("m4","「草枕」がかかる語は？",["旅","神","夜","雪"],0,"「草枕」は旅にかかります。", "emptyhouse"),
+ qChoice("m5","「あしびきの」がかかる語は？",["山","奈良","母","衣"],0,"「あしびきの山」が定番です。", "yamadori"),
+ qChoice("m6","「たらちねの」がかかる語は？",["母・親","天・空","旅","年"],0,"「たらちねの母（親）」と結びつきます。"),
+ qChoice("m7","「ちはやぶる」がかかる語は？",["神","夜","旅","命"],0,"「ちはやぶる神」が代表です。"),
+ qChoice("m8","「ひさかたの」がかかる語として最も適切なのは？",["天・空・月・光","母・親","奈良・都","旅・宿"],0,"「ひさかたの」は天・空・月・日・光など天空に関係する語を導きます。"),
+ qChoice("m9","「ぬばたまの（うばたまの）」が導く語は？",["黒・夜・闇・夢","雪・衣・袖","山・峰","母・親"],0,"黒い実から、黒・夜・闇・夢などを導きます。"),
+ qChoice("m10","「しろたへの」が導く語は？",["衣・袖・雪・雲","神・宇治","旅・宿","命・長し"],0,"白いもの、特に衣・袖・雪・雲などにかかります。"),
+ qChoice("m11","「あらたまの」が導く語は？",["年・月・日・春","山・峰","波・浦","母・親"],0,"新しい時の始まりから、年・月・日・春などにかかります。"),
+ qChoice("m12","「梓弓」が導く語として適切なのは？",["張る・引く・射る","咲く・散る","漕ぐ・舟","降る・雪"],0,"弓の動作に関係する「張る・引く・射る」などを導きます。"),
+ qText("m13","「あをによし　奈良の都は」の枕詞を書こう。",["あをによし","あおによし"],"あをによし","「奈良」にかかる枕詞です。", "aoni"),
+ qText("m14","「あしびきの　山鳥の尾の」の枕詞を書こう。",["あしびきの","足引きの","足曳きの"],"あしびきの","「山」にかかる五音の枕詞です。", "yamadori"),
+ qChoice("m15","枕詞は現代語訳でどう扱うのが基本？",["原則として訳さない","必ず『〜のように』と訳す","反対の意味にする","地名に直す"],0,"枕詞は音調を整え、特定語を導くため、原則として訳しません。"),
+ qChoice("m16","「空蝉の」が導く語として適切なのは？",["世・人・身・命","奈良・都","旅・宿","松・待つ"],0,"蝉の抜け殻のはかなさから、人の世・身・命などを導きます。"),
+ qChoice("m17","「玉の緒の」が導く語として適切なのは？",["絶ゆ・長し・短し・命","山・峰","神・宇治","黒・夜"],0,"玉を通す緒から、絶える・長い・短い・命などを導きます。"),
+ qChoice("m18","「玉梓の」が導く語として適切なのは？",["使ひ・使人・妹","天・空","母・親","雪・衣"],0,"梓の木で作った杖を使者が携えたことから、『使ひ』『使人』などを導きます。"),
+ qChoice("m19","「石走る」が導く語として適切なのは？",["水・滝・垂水","年・月","旅・宿","衣・袖"],0,"水が石の上を勢いよく走る情景から、水・滝・垂水などを導きます。"),
+ qChoice("m20","「玉藻かる 敏馬を過ぎて」で「敏馬」を導く枕詞は？",["玉藻かる","夏草の","あをによし","草枕"],0,"『玉藻かる』が地名『敏馬』を導きます。", "minume")
+];
+
+const jo = [
+ qChoice("j1","序詞について正しい説明は？",["長さや、かかる語が固定されない","必ず五音","原則訳さない","一語だけで二つの意味"],0,"序詞は二句以上になることもあり、音・意味・比喩で後の語を導きます。内容も訳します。"),
+ qChoice("j2","枕詞と序詞の大きな違いは？",["序詞は内容も現代語訳する","序詞は必ず五音","枕詞は長い","枕詞は比喩だけ"],0,"枕詞は原則訳さず、序詞は歌の情景の一部として訳します。"),
+ qChoice("j3","「すみの江の岸による波」が導く語は？",["よる","夢","人目","すみ"],0,"波が岸に「寄る」と、時間の「夜」の同音を利用して「よる」を導きます。", "suminoe"),
+ qText("j4","「すみの江の岸による波」がかかる語を本文どおり書こう。",["よる","夜"],"よる","岸に波が『寄る』→『夜』へつながります。", "suminoe"),
+ qChoice("j5","「ほととぎす鳴くや五月のあやめ草」が導く語は？",["あやめ","恋","鳴く","五月"],0,"植物の「あやめ」から、筋道・分別の意味の「あやめ」を導きます。", "ayame"),
+ qChoice("j6","「駿河なる宇津の山辺の」が導く語は？",["うつつ","夢","逢はぬ","駿河"],0,"地名「宇津」の音から「うつつ（現実）」を導きます。", "utsu"),
+ qChoice("j7","「浅茅生の小野の篠原」が導く語は？",["しのぶ","あまりて","恋しき","浅茅"],0,"「篠」の『しの』から「しのぶ」を導きます。", "shinobu"),
+ qChoice("j8","「風吹けば沖つ白波」が導く語は？",["たつ","夜半","君","越ゆ"],0,"白波が『立つ』から『たつた山』を導きます。", "tatsuta"),
+ qText("j9","「風吹けば沖つ白波」に続く、導かれる語を書こう。",["たつ","竜田","たつた"],"たつ（たつた山）","白波が立つ→たつた山、という音のつながりです。", "tatsuta"),
+ qChoice("j10","「あしびきの山鳥の尾のしだり尾の」は何を導く？",["ながながし","ひとり","夜","寝む"],0,"長く垂れた尾の形をたとえとして「ながながし」を導く比喩の序詞です。", "yamadori"),
+ qChoice("j11","「由良の門を渡る舟人かぢを絶え」が導く部分は？",["ゆくへも知らぬ","恋の道かな","由良の門","渡る舟人"],0,"櫂を失った舟の行方不明な状態を、恋の行末に重ねます。", "yura"),
+ qChoice("j12","「春日野の雪間をわけて生ひ出でくる草の」が導く語は？",["はつかに","見えし","君","春日野"],0,"雪間から草が少し見える情景を『わずかに』の意味の「はつかに」へつなげます。", "kasuga"),
+ qChoice("j13","序詞を見つけた後に必要なことは？",["導かれる語とつながり方を説明する","すべて削除する","五音に直す","作者名だけ答える"],0,"どこまでが序詞か、何を導くか、音・意味・比喩のどれでつながるかを説明できると強いです。"),
+ qText("j14","序詞は原則として現代語訳する？「する／しない」で答えよう。",["する","訳す","現代語訳する"],"する","序詞の内容は情景やたとえを作るので、現代語訳します。")
+];
+
+const kake = [
+ qChoice("k1","掛詞とは？",["一つの音に二つの意味を重ねる技法","決まった五音を置く技法","関連語を集める技法","文を途中で切る技法"],0,"同音異義語を利用して、一語に二つの意味を同時に持たせます。"),
+ qChoice("k2","掛詞の部分が表記されることの多い形は？",["ひらがな","ローマ字","数字","必ず漢字"],0,"どの漢字か一つに決めず二つの意味を生かすため、ひらがなが多く使われます。"),
+ qChoice("k3","「誰をまつ虫」の「まつ」に重なる意味は？",["待つ・松","待つ・末","松・祭る","舞う・待つ"],0,"人を『待つ』と虫の名『松虫』が重なります。", "matsumushi"),
+ qText("k4","「誰をまつ虫」の二つの意味を両方書こう。",[],"待つ・松", "人を待つ気持ちと松虫の名を一語に重ねています。", "matsumushi", ["待","松"], "例：〇つ・〇 のように二つ書きます。"),
+ qChoice("k5","「冬草の かれにし人」の「かれ」は？",["枯れ・離れ","彼・枯れ","涸れ・借り","離れ・帰れ"],0,"冬草が『枯れ』ることと、人が心から『離れ』ることを掛けています。", "fuyukusa"),
+ qChoice("k6","「あづさ弓 おしてはるさめ」の「はる」は？",["張る・春","晴る・春","張る・遥か","春・原"],0,"弓を『張る』と『春雨』の春を掛けています。", "azusawaka"),
+ qChoice("k7","「音にのみ きくの白露」の「きく」は？",["聞く・菊","効く・聞く","菊・築く","聞く・来る"],0,"噂に『聞く』と『菊』の白露を掛けます。", "kiku"),
+ qChoice("k8","「夜はおきて」の「おき」は？",["起き・置き","沖・起き","置き・奥","起き・熾き"],0,"人が夜に『起き』ていることと、露が夜に『置き』ることを重ねます。", "kiku"),
+ qChoice("k9","「たつた山」で掛けられているものは？",["波が立つ・竜田山","時が経つ・竜田山","鳥が発つ・立田","龍・田"],0,"直前の白波が『立つ』ことと地名『竜田山』が重なります。", "tatsuta"),
+ qChoice("k10","「来ぬ人を 松帆の浦の」の「まつ」は？",["待つ・松","待つ・末","松・祭る","舞つ・松"],0,"来ない人を『待つ』と地名『松帆』を掛けています。", "matsuho"),
+ qChoice("k11","「みかの原…いづみ川 いつ見き」の掛詞は？",["泉・いつ見","川・彼","原・腹","湧き・分き"],0,"地名の泉川の『いづみ』と『いつ見』が重なります。", "mika"),
+ qChoice("k12","枕草子の歌の「おき」は？",["沖・熾き火","置き・起き","奥・沖","起き・熾き火"],0,"海の『沖』と、火鉢の赤く燃える『熾き（火）』を掛けています。", "kaeru"),
+ qChoice("k13","枕草子の歌の「かへる」は？",["帰る・蛙","返る・帰る","蛙・変える","帰る・替える"],0,"表の海人が『帰る』と、実際に焼けていた『蛙』を掛けた機知です。", "kaeru"),
+ qText("k14","「山里は…人目も草も かれぬ」の掛詞を二つの漢字で書こう。",[],"枯れ・離れ","草が枯れることと、人が離れることの両方を表します。", "yamazato", ["枯","離"])
+];
+
+const engo = [
+ qChoice("e1","縁語とは？",["中心語と意味上つながる語を集める技法","同音異義語一語だけの技法","五音の決まり文句","文を切る場所"],0,"一つの中心語を核に、意味の関連する語が歌の中に散りばめられます。"),
+ qChoice("e2","縁語の中心語が入りやすい所は？",["枕詞や序詞の中","作者名だけ","必ず結句","詞書だけ"],0,"プリントのポイント通り、枕詞・序詞がある時は、その中に中心語が置かれることが多いです。"),
+ qChoice("e3","「あづさ弓―張る―射る」の中心語は？",["あづさ弓","年月","思ほゆ","春"],0,"弓を中心に、弓を『張る』『射る』が意味上結びつきます。", "azusayear"),
+ qChoice("e4","「音にのみ きくの白露…」の中心語は？",["白露","音","夜","思ひ"],0,"白露を中心に、露が『置く』・『日』に当たり『消ゆ』が結びつきます。", "kiku"),
+ qChoice("e5","白露の縁語の組合せは？",["置く・日・消ゆ","待つ・松・虫","張る・射る・弓","舟・櫂・行方"],0,"白露は夜に置き、日に当たって消える、という自然のつながりです。", "kiku"),
+ qChoice("e6","「来ぬ人を 松帆の浦の…」で海の景物の縁語は？",["浦・焼く・藻塩・焦がる","人・待つ・身","夕・来ぬ・つつ","松・帆・人目"],0,"海辺で藻塩を焼く情景の語が連なり、恋に身を焦がす心情と重なります。", "matsuho"),
+ qChoice("e7","縁語と掛詞の関係として正しいものは？",["掛詞になっている語が縁語を兼ねることが多い","絶対に同時に使わない","縁語は必ず五音","掛詞は訳さない"],0,"一つの語が掛詞として二義を持ち、その一方の意味が縁語の連鎖に入ることがよくあります。"),
+ qChoice("e8","「由良の門を 渡る舟人 かぢを絶え…」で海・舟に関係する語は？",["門・渡る・舟人・櫂・行方","恋・知らぬ・かな","由良・恋だけ","人・道だけ"],0,"舟が進路を失う語のまとまりが、先の見えない恋の比喩になります。", "yura"),
+ qText("e9","あづさ弓を中心にした縁語を一つ書こう。",["張る","はる","射る","いる","引く","ひく"],"張る／射る／引く","弓の動作に関係する語なら正解です。", "azusayear"),
+ qText("e10","白露を中心にした縁語を一つ書こう。",["置く","おく","日","ひ","消ゆ","消える","きゆ"],"置く／日／消ゆ","露が夜に置き、日に当たり消えるというつながりです。", "kiku"),
+ qChoice("e11","縁語を探すコツは？",["同じ場面・物に属する語を線で結ぶ","ひらがなを全て掛詞にする","五音だけ数える","作者の身分だけ見る"],0,"弓・海・露など中心となる場面を決め、意味の仲間を線で結ぶと見つけやすくなります。")
+];
+
+const translations = [
+ qChoice("t1","この歌の中心内容は？",["奈良の都の繁栄","旅の孤独","先の見えない恋","冬の山里"],0,"咲く花の美しさを奈良の都の繁栄に重ねています。", "aoni"),
+ qChoice("t2","「人もなき むなしき家」が旅より苦しい理由は？",["愛しい妻がいないから","雨が降るから","家が狭いから","舟がないから"],0,"妻のいない家の空虚さを嘆いています。", "emptyhouse"),
+ qChoice("t3","「夢のかよひ路 人目よくらむ」で嘆くことは？",["夢の中でさえ相手が人目を避けて来ない","昼寝ができない","道が波で消えた","都へ帰れない"],0,"昼だけでなく、夢の中の夜の逢瀬まで相手が人目を避けることを嘆きます。", "suminoe"),
+ qChoice("t4","「あやめも知らぬ恋」とは？",["筋道も分からない無我夢中の恋","花を知らない恋","五月だけの恋","別れを決めた恋"],0,"「あやめ」には物事の筋道・分別という意味があります。", "ayame"),
+ qChoice("t5","「うつつにも 夢にも人に逢はぬ」の意味は？",["現実でも夢でも相手に逢えない","昼だけ逢える","夢が現実になった","旅をやめた"],0,"うつつ＝現実。どちらの世界でも逢えない寂しさです。", "utsu"),
+ qChoice("t6","「しのぶれど あまりて」の心情は？",["隠してきた恋心が抑えきれない","旅が楽しい","花が散って悲しい","相手を忘れた"],0,"忍んできた恋が限度を超えてあふれています。", "shinobu"),
+ qChoice("t7","「ながながし夜」の長さに重ねたものは？",["山鳥の垂れた長い尾","川の流れ","白波","梓弓"],0,"長い山鳥の尾を、独り寝の夜の長さに重ねます。", "yamadori"),
+ qChoice("t8","「ゆくへも知らぬ 恋の道」とは？",["恋の行末が分からない","道に迷っただけ","舟旅が終わった","相手の住所がない"],0,"櫂を失った舟と、先の見えない恋を重ねています。", "yura"),
+ qChoice("t9","「わが待たぬ 年は来ぬれど」の対比は？",["待たない新年は来た／待つ人は来ない","春と秋","昼と夜","夢と現実"],0,"暦の年は来るのに、待っている人は便りさえくれない皮肉です。", "fuyukusa"),
+ qChoice("t10","「音にのみきく」の意味は？",["噂で聞くだけ","音楽だけ聞く","菊を眺める","返事を聞く"],0,"まだ逢ったことがなく、相手の噂だけを聞いて恋しています。", "kiku"),
+ qChoice("t11","「身もこがれつつ」が表すものは？",["恋しさに身を焦がし続ける","日に焼ける","塩を作る仕事","家へ帰る"],0,"藻塩を焼く『焦げる』情景と、恋に『焦がれる』心情を重ねます。", "matsuho"),
+ qChoice("t12","「はつかに見えし君」はどんな出会い？",["ほんのわずかに姿を見た","長年暮らした","夢だけで見た","手紙だけ読んだ"],0,"雪間から草が少しのぞくように、女性をほんの一瞬見かけた場面です。", "kasuga")
+];
+
+const practice = [
+ qChoice("p1","「来ぬ人を 松帆の浦の…」の掛詞は？",["待つ・松","来ぬ・衣","浦・裏","身・実"],0,"『待つ』と地名『松帆』を重ねます。", "matsuho"),
+ qChoice("p2","同じ歌で、藻塩を焼く情景と恋心をつなぐ語は？",["こがれ","来ぬ","浦","夕なぎ"],0,"藻塩が焦げることと、恋に身を焦がすことを重ねます。", "matsuho"),
+ qText("p3","「来ぬ人を」の現代語訳の中心語を書こう。誰をどうする？",["来ない人を待つ","来ぬ人を待つ","来ない恋人を待つ","恋人を待つ"],"来ない恋人を待つ","『来ぬ』は来ない。『松帆』の松に『待つ』を掛けます。", "matsuho"),
+ qChoice("p4","「みかの原…」で上三句が導く言葉は？",["いつ見","恋し","わきて","流るる"],0,"泉川（いづみがわ）の音から『いつ見』を導きます。", "mika"),
+ qChoice("p5","「いつ見きとてか」の意味は？",["いつ見たというので","いつ帰るのか","どこで見たのか","泉を見たい"],0,"まだ会ったこともない相手なのに、なぜこんなに恋しいのかという驚きです。", "mika"),
+ qChoice("p6","「山里は 冬ぞ…」の「ぞ」による結びは？",["まさりける（連体形）","思へば","かれぬ","山里"],0,"係助詞『ぞ』を受けて『けり』が連体形『ける』になります。句切れ把握にも役立ちます。", "yamazato"),
+ qText("p7","「人目も草も かれぬ」の掛詞を二つ書こう。",[],"離れ・枯れ","人が離れる／草が枯れる、の二義です。", "yamazato", ["離","枯"]),
+ qChoice("p8","「春日野の…草の」は、どの語を導く序詞？",["はつかに","見えし","君","雪間"],0,"雪間に草がわずかに見える様子から『はつかに＝わずかに』を導きます。", "kasuga"),
+ qChoice("p9","「はつかに」の意味は？",["わずかに","二十日間","初めて","春らしく"],0,"ここでは『ほんのわずかに、かすかに』です。", "kasuga"),
+ qChoice("p10","枕草子の歌を詠んだ目的は？",["炭櫃の煙の正体を機知のある歌で報告する","海へ旅行したいと願う","天皇に釣りを勧める","蛙を助ける"],0,"命じられた女房が、見たものを掛詞だらけの歌にして即興で報告しました。", "kaeru"),
+ qChoice("p11","実際に炭櫃の中で焼けていたものは？",["蛙","魚","松","菊"],0,"『かへる』を『帰る／蛙』と掛けて、蛙だと知らせます。", "kaeru"),
+ qChoice("p12","枕草子の歌の「こがるる」の二義は？",["漕がるる・焦がるる","焦がるる・凍る","漕ぐ・帰る","焦げる・恋しい"],0,"表では舟が『漕がるる』、裏では火に『焦がるる』です。", "kaeru"),
+ qChoice("p13","枕草子の歌の面白さは？",["海の情景と火鉢の蛙を掛詞で二重に表した","音数が三十一ではない","全部が枕詞","作者名を隠した"],0,"一首を普通の海の歌として読める一方、実際の出来事も掛詞で正確に報告しています。", "kaeru"),
+ qChoice("p14","「あづさ弓 おして春雨…」の句切れは？",["三句切れ","初句切れ","二句切れ","句切れなし"],0,"『今日降りぬ。』で言い切れるので三句切れです。", "azusawaka"),
+ qChoice("p15","「若菜摘みてむ」の「む」の意味として自然なのは？",["意志（摘もう）","推量（摘むだろう）","婉曲","仮定"],0,"話し手の行為なので『若菜を摘もう』という意志です。", "azusawaka"),
+ qText("p16","プリントの最重要四技法を四つ書こう。順不同。",[],"枕詞・序詞・掛詞・縁語","この四つを、定義だけでなく実際の歌の中で区別できるようにします。", null,["枕詞","序詞","掛詞","縁語"],"四つを「・」で区切って書きます。")
+];
+
+const mock = [
+ qChoice("x1","五音ほどで、特定の語に固定的にかかり、原則訳さないのは？",["枕詞","序詞","掛詞","縁語"],0,"枕詞の三条件です。"),
+ qChoice("x2","長さ・かかる語が固定されず、内容も訳すのは？",["序詞","枕詞","句切れ","係り結び"],0,"序詞は後の語を音・意味・比喩で導きます。"),
+ qChoice("x3","同音異義語で二つの意味を重ねるのは？",["掛詞","縁語","枕詞","体言止め"],0,"掛詞です。ひらがな表記が手がかりになることもあります。"),
+ qChoice("x4","中心語と関係する語を散りばめるのは？",["縁語","掛詞","序詞","句切れ"],0,"弓―張る―射る、白露―置く―日―消ゆ、などです。"),
+ qChoice("x5","「あしびきの」は何にかかる？",["山","旅","奈良","母"],0,"あしびきの山。", "yamadori"),
+ qChoice("x6","「すみの江の岸による波」は何を導く？",["よる","夢","人目","岸"],0,"寄る波→夜。", "suminoe"),
+ qChoice("x7","「あやめも知らぬ」の「あやめ」の意味は？",["物事の筋道・分別","花の色","五月","恋人"],0,"筋道も分からないほどの恋です。", "ayame"),
+ qChoice("x8","「うつつ」の意味は？",["現実","夢","旅","夜"],0,"現実でも夢でも逢えない、と詠みます。", "utsu"),
+ qChoice("x9","「風吹けば沖つ白波」の序詞が導く語は？",["たつ","白波","夜半","越ゆ"],0,"波が立つ→たつた山。", "tatsuta"),
+ qChoice("x10","「山鳥の尾のしだり尾」は何のたとえ？",["長い独り寝の夜","恋の道","春雨","人目"],0,"尾の長さを夜の長さに重ねます。", "yamadori"),
+ qChoice("x11","「誰をまつ虫」の掛詞は？",["待つ・松","末・松","待つ・舞う","松・祭る"],0,"待つ／松虫。", "matsumushi"),
+ qChoice("x12","「冬草の かれにし人」の掛詞は？",["枯れ・離れ","枯れ・彼","離れ・帰れ","涸れ・借れ"],0,"草が枯れ、人が離れる。", "fuyukusa"),
+ qChoice("x13","「音にのみ きく」の掛詞は？",["聞く・菊","聞く・効く","菊・築く","聞く・来る"],0,"噂に聞く／菊の白露。", "kiku"),
+ qChoice("x14","「来ぬ人を 松帆の浦の」の中心心情は？",["来ない恋人を待ち、身を焦がす","海で働きたい","故郷へ帰りたい","秋の虫を聞く"],0,"海辺の藻塩焼きに、焦がれる恋心を重ねます。", "matsuho"),
+ qChoice("x15","「みかの原…」でまだ相手に会っている？",["会っていない","毎日会う","夢でだけ会う","別れた後"],0,"『いつ見たというので恋しいのか』＝まだ会っていないのに恋しい。", "mika"),
+ qChoice("x16","「山里は冬ぞ…」の寂しさが増す理由は？",["人が離れ草も枯れるから","雪が美しいから","恋人が来たから","鳥が鳴くから"],0,"人目も草も『かれ』る二重の寂しさです。", "yamazato"),
+ qChoice("x17","「はつかに」の意味は？",["わずかに","初日に","二十日に","はっきり"],0,"雪間の草のように、ほんのわずかに。", "kasuga"),
+ qChoice("x18","枕草子の歌で実際に焼けていたものは？",["蛙","海人","魚","若菜"],0,"帰る／蛙の掛詞で答えています。", "kaeru"),
+ qText("x19","「あをによし」がかかる地名を書こう。",["奈良","なら"],"奈良","代表的な枕詞の組み合わせです。", "aoni"),
+ qText("x20","白露の縁語を一つ書こう。",["置く","おく","日","ひ","消ゆ","消える","きゆ"],"置く／日／消ゆ","白露が夜に置き、日に当たり消える自然の関係です。", "kiku")
+];
+
+const sections = [
+ {key:"basic",title:"和歌の基本と句切れ",level:"★ はじめに",desc:"五・七・五・七・七、三十一音、句切れの探し方",flower:"🌸",flowerName:"桜のひと枝",guide:`<h3>まずは「骨組み」だけ</h3><div class="point"><b>短歌＝五・七・五・七・七</b>の五句、合計<b>三十一音</b>です。</div><div class="point"><b>句切れ</b>は、歌の途中で「。」を打てる大きな意味の切れ目。終止形・命令形・係り結び・終助詞が手がかりです。</div><h3>読む順番</h3><ol><li>五句に分ける</li><li>「。」を打てる所を探す</li><li>枕詞・序詞・掛詞・縁語を探す</li><li>情景と心情を現代語でつなぐ</li></ol><div class="point">技法名の暗記だけでなく、<b>「なぜその技法か」</b>を言えることが期末対策になります。</div>`,questions:basics},
+ {key:"makura",title:"枕詞を見分ける",level:"★ 基礎",desc:"五音・固定的・原則訳さない。組み合わせを練習",flower:"🪷",flowerName:"蓮の花",guide:`<h3>枕詞の三つの目印</h3><div class="point">① 多くは<b>五音</b>　② かかる語が<b>ほぼ固定</b>　③ 原則として<b>訳さなくてよい</b></div><table class="compare"><tr><th>枕詞</th><th>導く語</th></tr><tr><td>あをによし</td><td>奈良</td></tr><tr><td>あしびきの</td><td>山</td></tr><tr><td>草枕</td><td>旅</td></tr><tr><td>たらちねの</td><td>母・親</td></tr><tr><td>ちはやぶる</td><td>神</td></tr><tr><td>ひさかたの</td><td>天・空・月・日・光</td></tr><tr><td>ぬばたまの（うばたまの）</td><td>黒・夜・闇・夢</td></tr><tr><td>しろたへの</td><td>衣・袖・雪・雲</td></tr><tr><td>あらたまの</td><td>年・月・日・春</td></tr><tr><td>梓弓</td><td>張る・引く・射る</td></tr><tr><td>空蝉の</td><td>世・人・身・命</td></tr><tr><td>玉の緒の</td><td>絶ゆ・長し・短し・命</td></tr><tr><td>玉梓の</td><td>使ひ・使人・妹</td></tr><tr><td>石走る</td><td>水・滝・垂水</td></tr></table><div class="point">短い合言葉のように、<b>二つをセット</b>で覚えます。</div>`,questions:makura},
+ {key:"jo",title:"序詞のしくみ",level:"★★ 理解",desc:"どこまでが序詞か、何をどう導くかをつかむ",flower:"🌺",flowerName:"夏の紅花",guide:`<h3>序詞は「長い助走」</h3><div class="point">長さも、かかる語も固定されません。音・意味・たとえで後の語を導き、<b>序詞の中身も現代語訳</b>します。</div><table class="compare"><tr><th></th><th>枕詞</th><th>序詞</th></tr><tr><td>長さ</td><td>多くは五音</td><td>自由・二句以上も</td></tr><tr><td>結びつき</td><td>ほぼ固定</td><td>歌ごとに違う</td></tr><tr><td>現代語訳</td><td>原則しない</td><td>する</td></tr></table><div class="mini-waka">風吹けば　沖つ白波　たつた山</div><div class="point">白波が<b>立つ</b> → <b>たつ</b>た山。まず「何を導くか」を見つけます。</div>`,questions:jo},
+ {key:"kake",title:"掛詞を二重に読む",level:"★★ 理解",desc:"一つの音に二つの意味。漢字を二つ当てる",flower:"🍁",flowerName:"紅葉の枝",guide:`<h3>一つの音を、二つの世界で読む</h3><div class="point"><b>同音異義語</b>を使い、一語に二つの意味を重ねます。どちらか一方ではなく、<b>両方</b>が答えです。</div><table class="compare"><tr><th>かな</th><th>二つの意味</th></tr><tr><td>まつ</td><td>待つ／松</td></tr><tr><td>かれ</td><td>枯れ／離れ</td></tr><tr><td>はる</td><td>張る／春</td></tr><tr><td>きく</td><td>聞く／菊</td></tr><tr><td>おき</td><td>起き・置き／沖・熾き</td></tr><tr><td>ふる</td><td>降る／古る・経る</td></tr><tr><td>ながめ</td><td>長雨／眺め</td></tr><tr><td>よる</td><td>寄る／夜</td></tr></table><div class="point">ひらがなになっていたら「別の漢字も当てられないか」と考えます。</div>`,questions:kake},
+ {key:"engo",title:"縁語を線でつなぐ",level:"★★★ 応用",desc:"弓・白露・海など、意味の仲間を見つける",flower:"🌾",flowerName:"秋の萩と薄",guide:`<h3>同じ場面の「意味の仲間」</h3><div class="point">中心語を一つ決め、その物と関係の深い語を線でつなぎます。</div><table class="compare"><tr><th>中心語</th><th>縁語</th></tr><tr><td>あづさ弓</td><td>張る・射る</td></tr><tr><td>白露</td><td>置く・日・消ゆ</td></tr><tr><td>海・藻塩</td><td>浦・焼く・焦がる</td></tr><tr><td>舟</td><td>渡る・舟人・櫂・行方</td></tr></table><div class="point">掛詞の一方の意味が、この「意味の仲間」に入ることも多くあります。</div>`,questions:engo},
+ {key:"translation",title:"現代語訳で心を読む",level:"★★ 読解",desc:"情景→ことばの二重性→作者の心情の順で理解",flower:"🌼",flowerName:"香り立つ菊",guide:`<h3>現代語訳は三段階</h3><div class="point">① <b>情景</b>（何が見える？）→ ② <b>技法</b>（二重の意味は？）→ ③ <b>心情</b>（なぜこの景色を詠んだ？）</div><div class="mini-waka">由良の門を　渡る舟人　かぢを絶え　ゆくへも知らぬ　恋の道かな</div><div class="point">櫂を失った舟＝行方が分からない。そこから、<b>恋の行末が分からない不安</b>を読み取ります。</div><p>分からない単語を一語ずつ訳すより、まず情景を頭に描くと、心情が自然につながります。</p>`,questions:translations},
+ {key:"practice",title:"プリントp90・枕草子実戦",level:"★★★ 実戦",desc:"来ぬ人を／みかの原／山里は／春日野／蛙の歌",flower:"🌺",flowerName:"寒中の梅",guide:`<h3>プリントの練習問題を完成させる</h3><div class="point"><b>来ぬ人を</b>：待つ／松、藻塩が焦げる／恋に焦がれる。</div><div class="point"><b>みかの原</b>：泉川→いつ見。まだ会っていない相手への恋。</div><div class="point"><b>山里は</b>：草が枯れ、人が離れる。「ぞ〜ける」の係り結び。</div><div class="point"><b>春日野の</b>：雪間の草が少し見える→女性をわずかに見た。</div><div class="point"><b>枕草子</b>：海の歌に見せながら、沖／熾き、漕がるる／焦がるる、帰る／蛙で、炭櫃の蛙を報告します。</div>`,questions:practice},
+ {key:"mock",title:"期末テスト模擬20問",level:"★★★★ 仕上げ",desc:"定義・識別・現代語訳を混ぜた総合チェック",flower:"💐",flowerName:"四季の花束",guide:`<h3>いよいよ総仕上げ</h3><div class="point">20問を、毎回順番を変えて出題します。間違えた問題は後でもう一度出ます。全問を一度ずつ正解したら合格です。</div><p>答える時は「技法名」だけでなく、<b>どの言葉が・何にかかり・どんな意味になるか</b>を頭の中で言ってみましょう。</p><div class="point">目標：枕詞・序詞・掛詞・縁語を見分け、歌の心情を現代語で説明できる。</div>`,questions:mock,shuffle:true}
+];
+
+let saved;
+try{saved=JSON.parse(localStorage.getItem(STORAGE_KEY))||{}}catch(e){saved={}}
+saved.completed ||= {}; saved.attempts ||= {}; saved.wrongs ||= {}; saved.rewards ||= {};
+let currentSection=null, queue=[], mastered=0, selectedChoice=null, locked=false;
+
+const $ = s => document.querySelector(s);
+function persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(saved))}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c])}
+function norm(s){return String(s??"").normalize("NFKC").toLowerCase().replace(/[\s　。、，,・･\/／\-―—()（）「」『』【】［］:：]/g,"").replace(/おう/g,"おお").replace(/ず/g,"づ")}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function showScreen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$("#"+id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
+function saveName(){saved.name=$("#studentName").value.trim();persist()}
+
+function renderHome(){
+  if(saved.name) $("#studentName").value=saved.name;
+  $("#sectionGrid").innerHTML=sections.map((s,i)=>{
+    const done=!!saved.completed[s.key]; const tries=saved.attempts[s.key]||0;
+    return `<button class="section-card ${done?"done":""}" data-sec="${i}"><span class="num">第${i+1}帖</span><h3>${s.title}</h3><p>${s.desc}</p><span class="foot"><span>${s.level}</span><span>${done?"✓ 修了":tries?`挑戦 ${tries}回`:s.questions.length+"問"}</span></span></button>`
+  }).join("");
+  document.querySelectorAll("[data-sec]").forEach(b=>b.onclick=()=>openSection(+b.dataset.sec));
+  const gifts=sections.filter(s=>saved.rewards[s.key]).map(s=>`<span class="flower-chip">${s.flower} ${s.flowerName}</span>`);
+  $("#collection").innerHTML=gifts.length?`<b>いただいた花：</b>${gifts.join("")}`:"<span class='note'>セクションを修了すると、貴族から四季の花が届きます。</span>";
+}
+
+function openSection(i){
+  saveName(); currentSection=sections[i]; mastered=0; queue=[]; selectedChoice=null; locked=false;
+  $("#studyTitle").textContent=currentSection.title;
+  $("#progressText").textContent=`0 / ${currentSection.questions.length}`; $("#progressBar").style.width="0%";
+  $("#guideView").hidden=false; $("#questionView").hidden=true;
+  $("#guideView").innerHTML=`<div class="guide"><div class="guide-title"><div class="vertical-title">${currentSection.title}</div></div><div class="guide-notes">${currentSection.guide}<div class="toolbar"><button class="primary" id="startQuestions">理解したので問題へ</button><button class="ghost" id="showAllPoemsHere">和歌一覧で予習</button></div></div></div>`;
+  $("#startQuestions").onclick=startQuestions; $("#showAllPoemsHere").onclick=renderEncyclopedia;
+  showScreen("study");
+}
+
+function startQuestions(){
+  saved._sessionWrong=0;
+  queue=currentSection.shuffle?shuffle(currentSection.questions):[...currentSection.questions];
+  saved.attempts[currentSection.key]=(saved.attempts[currentSection.key]||0)+1; persist();
+  $("#guideView").hidden=true; $("#questionView").hidden=false; renderQuestion();
+}
+
+function poemHtml(key){
+  if(!key)return ""; const p=poems[key];
+  return `<div class="poem">${p.text.replaceAll("｜","<br>")}</div><div class="reading">読み：${p.reading.replaceAll("｜","<br>")}</div>`;
+}
+
+function concealPoemUntilAnswer(q){return currentSection.key==="makura"&&!!q.poem}
+function feedbackPoemHtml(q){
+  if(!concealPoemUntilAnswer(q))return "";
+  const p=poems[q.poem];
+  return `<div class="feedback-waka"><b>和歌</b>　${p.text.replaceAll("｜","<br>")}<span class="feedback-reading">読み　${p.reading.replaceAll("｜","<br>")}</span></div>`;
+}
+
+function renderQuestion(){
+  if(!queue.length){completeSection();return}
+  const q=queue[0]; selectedChoice=null; locked=false;
+  const total=currentSection.questions.length; const pct=Math.round(mastered/total*100);
+  $("#progressText").textContent=`${mastered} / ${total}`; $("#progressBar").style.width=pct+"%";
+  // 表示するたびに選択肢だけを並べ替える。data-choice には元の番号を残すので、
+  // 正解判定は保ったまま、再出題時にも正解位置が変わる。
+  const displayedChoices=q.type==="choice"
+    ? shuffle(q.choices.map((text,originalIndex)=>({text,originalIndex})))
+    : [];
+  const poemIsConcealed=concealPoemUntilAnswer(q);
+  const answerUI=q.type==="choice"?`<div class="choice-grid">${displayedChoices.map(c=>`<button class="choice" data-choice="${c.originalIndex}">${c.text}</button>`).join("")}</div>`:`<textarea id="textAnswer" class="vertical-input" aria-label="答えを入力" placeholder="ここに答え"></textarea><div class="hint">${q.hint}</div>`;
+  $("#questionView").innerHTML=`<div class="status-line"><span>未修得 ${queue.length}問（誤答は後で再出題）</span><span>今回の誤答 ${saved._sessionWrong||0}回</span></div><div class="question-layout"><div class="vertical-panel"><span class="q-label">問</span>　${q.prompt}${poemHtml(poemIsConcealed?null:q.poem)}</div><div class="answer-side">${answerUI}<div id="feedback" class="feedback" aria-live="polite"></div><div class="answer-actions"><button class="primary" id="checkAnswer">答えを確かめる</button><button class="ghost" id="readPoem" ${q.poem&&!poemIsConcealed?"":"hidden"}>🔊 和歌を読む</button><button class="secondary" id="nextQuestion" hidden>次の問題へ</button></div></div></div>`;
+  document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>{if(locked)return;document.querySelectorAll("[data-choice]").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedChoice=+b.dataset.choice});
+  $("#checkAnswer").onclick=checkAnswer; $("#nextQuestion").onclick=nextQuestion;
+  if(q.poem) $("#readPoem").onclick=()=>speakPoem(q.poem);
+  if(q.type==="text") $("#textAnswer").addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key==="Enter")checkAnswer()});
+}
+
+function isCorrect(q,value){
+  if(q.type==="choice") return value===q.answer;
+  const n=norm(value);
+  if(q.required) return q.required.every(part=>n.includes(norm(part)));
+  return q.answers.some(a=>norm(a)===n);
+}
+
+function checkAnswer(){
+  if(locked)return; const q=queue[0]; const value=q.type==="choice"?selectedChoice:$("#textAnswer").value;
+  if((q.type==="choice"&&value===null)||(q.type==="text"&&!String(value).trim())){toast("答えを選ぶか入力してください");return}
+  locked=true; const ok=isCorrect(q,value); const fb=$("#feedback");
+  document.querySelectorAll(".choice").forEach(x=>x.disabled=true); if($("#textAnswer"))$("#textAnswer").disabled=true;
+  const poemContext=q.poem?`${feedbackPoemHtml(q)}<b>現代語訳：</b>${poems[q.poem].translation}`:"";
+  if(ok){
+    fb.className="feedback show ok"; fb.innerHTML=`<strong>正解です。</strong><br>${q.explain}${poemContext?`<br>${poemContext}`:""}`;
+    queue.shift(); mastered++;
+  }else{
+    saved._sessionWrong=(saved._sessionWrong||0)+1; saved.wrongs[currentSection.key]=(saved.wrongs[currentSection.key]||0)+1;
+    fb.className="feedback show ng"; fb.innerHTML=`<strong>もう一度、最後に出ます。</strong><br><b>正答：</b>${q.type==="choice"?q.choices[q.answer]:q.model}<br>${q.explain}${poemContext?`<br>${poemContext}`:""}`;
+    queue.push(queue.shift()); persist();
+  }
+  if(q.poem)$("#readPoem").hidden=false;
+  $("#checkAnswer").hidden=true; $("#nextQuestion").hidden=false;
+  $("#nextQuestion").textContent=ok?(queue.length?"次の問題へ":"結果を見る"):"解説を読んで次へ（あとで再出題）";
+  const total=currentSection.questions.length; $("#progressText").textContent=`${mastered} / ${total}`; $("#progressBar").style.width=Math.round(mastered/total*100)+"%";
+}
+function nextQuestion(){renderQuestion();window.scrollTo({top:0,behavior:"smooth"})}
+
+function completeSection(){
+  const key=currentSection.key; saved.completed[key]={date:new Date().toLocaleDateString("ja-JP"),attempts:saved.attempts[key],wrongTotal:saved.wrongs[key]||0}; saved.rewards[key]=true; delete saved._sessionWrong; persist();
+  $("#progressText").textContent=`${currentSection.questions.length} / ${currentSection.questions.length}`; $("#progressBar").style.width="100%";
+  const name=saved.name?`${saved.name}さん、`:"";
+  $("#flowerGift").textContent=currentSection.flower; $("#rewardTitle").textContent="ようやった！";
+  $("#rewardMessage").innerHTML=`${esc(name)}「${currentSection.title}」をすべて修めたり。<br><b>いとめでたし。</b> 褒美に「${currentSection.flowerName}」を取らせよう。`;
+  $("#rewardModal").classList.add("show"); makePetals(currentSection.flower);
+}
+function makePetals(symbol){
+  const card=$("#rewardCard");card.querySelectorAll(".petal").forEach(x=>x.remove());
+  for(let i=0;i<22;i++){const p=document.createElement("span");p.className="petal";p.textContent=symbol;p.style.left=Math.random()*96+"%";p.style.animationDuration=(2.6+Math.random()*2.8)+"s";p.style.animationDelay=(Math.random()*1.2)+"s";card.appendChild(p)}
+}
+
+function renderEncyclopedia(){
+  $("#poemGrid").innerHTML=Object.entries(poems).map(([key,p])=>`<article class="poem-card"><div class="v"><b>${p.text.replaceAll("｜","<br>")}</b><br><span class="reading">${p.reading.replaceAll("｜","<br>")}</span></div><details><summary>現代語訳・技法</summary><p>${p.translation}</p><span class="tag">${p.tech}</span></details><button class="ghost speak-card" data-poem="${key}">🔊 音読</button></article>`).join("");
+  document.querySelectorAll(".speak-card").forEach(b=>b.onclick=()=>speakPoem(b.dataset.poem));showScreen("encyclopedia");
+}
+function speakPoem(key){
+  if(!("speechSynthesis" in window)){toast("このブラウザは読み上げに対応していません");return}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(poems[key].reading.replaceAll("｜","、"));u.lang="ja-JP";u.rate=.72;speechSynthesis.speak(u);
+}
+function buildReport(){
+  saveName(); const name=saved.name||"（名前未入力）"; const lines=[`古典必携 第8章「和歌」学習報告`,`名前：${name}`,`報告日：${new Date().toLocaleString("ja-JP")}`,""];
+  sections.forEach((s,i)=>{const c=saved.completed[s.key];const tries=saved.attempts[s.key]||0;const wrong=saved.wrongs[s.key]||0;lines.push(`${i+1}. ${s.title}：${c?"修了":"未修了"}／挑戦 ${tries}回／誤答 ${wrong}回`)});
+  const done=sections.filter(s=>saved.completed[s.key]).length; lines.push("",`修了：${done}/${sections.length}セクション`);
+  const weak=sections.filter(s=>(saved.wrongs[s.key]||0)>0).sort((a,b)=>(saved.wrongs[b.key]||0)-(saved.wrongs[a.key]||0)).slice(0,3).map(s=>s.title);
+  lines.push(`復習した分野：${weak.length?weak.join("、"):"なし"}`);return lines.join("\n");
+}
+function mailReport(){
+  saveName(); if(!saved.name){toast("先に学習する人の名前を入力してください");$("#studentName").focus();return}
+  const subject=encodeURIComponent(`古典必携 第8章 和歌 学習報告｜${saved.name}`);const body=encodeURIComponent(buildReport());window.location.href=`mailto:${REPORT_EMAIL}?subject=${subject}&body=${body}`;
+}
+async function copyReport(){try{await navigator.clipboard.writeText(buildReport());toast("学習結果をコピーしました")}catch(e){toast("コピーできませんでした。メール報告をご利用ください")}}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+
+$("#studentName").addEventListener("change",saveName);
+$("#homeTop").onclick=()=>{renderHome();showScreen("home")};
+$("#backHome").onclick=()=>{delete saved._sessionWrong;persist();renderHome();showScreen("home")};
+$("#openEncyclopedia").onclick=renderEncyclopedia;$("#backFromEncyclopedia").onclick=()=>{renderHome();showScreen("home")};
+$("#closeReward").onclick=()=>{$("#rewardModal").classList.remove("show");renderHome();showScreen("home")};
+$("#mailReport").onclick=mailReport;$("#copyReport").onclick=copyReport;
+$("#resetProgress").onclick=()=>{if(confirm("この端末の学習記録と花の贈り物をリセットしますか？")){const name=$("#studentName").value.trim();saved={name,completed:{},attempts:{},wrongs:{},rewards:{}};persist();renderHome();toast("学習記録をリセットしました")}};
+renderHome();
+</script>
+</body>
+</html>
